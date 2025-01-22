@@ -19,7 +19,10 @@ function pickassets(
   end
   eachyearvol = stack([vec(mean(vol[:, r], dims=2)) for r=ranges], dims=2)
   overalmean = mean(eachyearvol, dims=2)
-  return Dict(tickers[i] => overalmean[i] for i=eachindex(tickers)), mean(overalmean)
+  res = Dict(tickers[i] => overalmean[i] for i=eachindex(tickers))
+  supremetickers = (keys(res) |> collect)[findall(mean(overalmean).≤values(res))]
+  idxsupremes = findall(tickers.==supremetickers)
+  return PickedAssets(mean(overalmean), collect(zip(idxsupremes, supremetickers)), res)
 end
 
 function _partition(::Yearly, dates::AbstractVector{<:Date})

@@ -4,9 +4,9 @@ using Dates
 
 include("Types.jl")
 
-export highvolatility, ValueBased, DateBased, Monthly, Yearly
+export pickassets, ValueBased, DateBased, Monthly, Yearly
 
-function highvolatility(
+function pickassets(
   dates::AbstractVector{<:Date},
   partition::Partition,
   vol::AbstractMatrix{<:AbstractFloat},

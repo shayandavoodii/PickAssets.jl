@@ -24,10 +24,10 @@ end
 
 function _partition(::Yearly, dates::AbstractVector{<:Date})
   uniqueyears = unique(year.(dates))
-  rangesfinal = UnitRange{Int}[]
-  for year_ ∈ uniqueyears
+  ranges = Memory{UnitRange}(undef, length(uniqueyears))
+  for (idx, year_) ∈ enumerate(uniqueyears)
     idxs = findall(year.(dates).==year_)
-    push!(rangesfinal, range(idxs[1], idxs[end]))
+    ranges[idx] = range(idxs[1], idxs[end])
   end
   return rangesfinal
 end
@@ -36,9 +36,9 @@ function _partition(::Monthly, vals::AbstractVector{<:Date})
   currentmonth, currentyear = month(first(vals)), year(first(vals))
   lastmonth, lastyear = month(last(vals)), year(last(vals))
   nmonths_ = nmonths(currentyear, currentmonth, lastyear, lastmonth)
-  ranges = UnitRange{Int}[]
-  for _ ∈ 1:nmonths_
-    push!(ranges, range(findfirst((month.(vals) .== currentmonth).&&(year.(vals) .== currentyear)), findlast((month.(vals) .== currentmonth).&&(year.(vals) .== currentyear))))
+  ranges = Memory{UnitRange}(undef, nmonths_)
+  for i ∈ 1:nmonths_
+    ranges[i] = range(findfirst((month.(vals) .== currentmonth).&&(year.(vals) .== currentyear)), findlast((month.(vals) .== currentmonth).&&(year.(vals) .== currentyear)))
     currentmonth = nextmonth(currentmonth)
     currentyear += currentmonth == 12 ? 1 : 0
   end
@@ -47,9 +47,9 @@ end
 
 function _partition(type::Span, vals::AbstractVector)
   nperiods = length(vals)/type.val |> ceil |> Int
-  ranges = UnitRange{Int}[]
+  ranges = Memory{UnitRange}(undef, nperiods)
   for i ∈ 1:nperiods
-    push!(ranges, range((i-1)*type.val+1, i*type.val))
+    ranges[i] = range((i-1)*type.val+1, i*type.val)
   end
   if last(ranges).stop > length(vals)
     ranges[end] = range(ranges[end].start, length(vals))

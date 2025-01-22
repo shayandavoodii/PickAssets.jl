@@ -55,7 +55,7 @@ function _partition(type::Span, vals::AbstractVector)
     ranges[i] = range((i-1)*type.val+1, i*type.val)
   end
   if last(ranges).stop > length(vals)
-    ranges[end] = range(ranges[end].start, length(vals))
+    ranges[end] = range(last(ranges).start, length(vals))
   end
   return ranges
 end

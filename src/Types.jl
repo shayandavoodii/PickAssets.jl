@@ -20,8 +20,9 @@ end
 
 struct Seasonaly <: Span end
 
-struct PickedAssets{F<:AbstractFloat, T<:AbstractVector, S<:Dict{String, F}}
+struct PickedAssets{F<:AbstractFloat, T1<:AbstractVector{String}, T2<:AbstractVector{Int}, S<:Dict{String, F}}
   mean::F
-  sup::T
+  sup::T1
+  idx::T2
   res::S
 end

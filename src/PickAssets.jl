@@ -22,7 +22,7 @@ function pickassets(
   res = Dict(tickers[i] => overalmean[i] for i=eachindex(tickers))
   supremetickers = (keys(res) |> collect)[findall(mean(overalmean).≤values(res))]
   idxsupremes = findall(tickers.==supremetickers)
-  return PickedAssets(mean(overalmean), collect(zip(idxsupremes, supremetickers)), res)
+  return PickedAssets(mean(overalmean), supremetickers, idxsupremes, res)
 end
 
 function _partition(::Yearly, dates::AbstractVector{<:Date})
@@ -32,7 +32,7 @@ function _partition(::Yearly, dates::AbstractVector{<:Date})
     idxs = findall(year.(dates).==year_)
     ranges[idx] = range(idxs[1], idxs[end])
   end
-  return rangesfinal
+  return ranges
 end
 
 function _partition(::Monthly, vals::AbstractVector{<:Date})

@@ -64,4 +64,8 @@ nextmonth(id::Int) = id==12 ? 1 : id+1
 
 nmonths(y1::Int, m1::Int, y2::Int, m2::Int) = abs(y1-y2)*12 + abs(m1 - m2)
 
+mean(series::AbstractVector) = sum(series) / length(series)
+
+mean(mat::AbstractMatrix; dims::Int) = sum(mat, dims=dims) / size(mat, dims)
+
 end

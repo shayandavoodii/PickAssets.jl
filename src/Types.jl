@@ -3,7 +3,6 @@ abstract type Partition end
 abstract type Span end
 
 struct HighVolatility <: Method end
-struct Random <: Method end
 struct DateBased{T<:Span} <: Partition
   span::T
 end

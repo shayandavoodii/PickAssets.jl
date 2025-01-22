@@ -19,3 +19,9 @@ end
 end
 
 struct Seasonaly <: Span end
+
+struct PickedAssets{F<:AbstractFloat, T<:AbstractVector, S<:Dict{String, F}}
+  mean::F
+  sup::T
+  res::S
+end

@@ -4,7 +4,7 @@ using Dates
 
 include("Types.jl")
 
-export highvolatility, MonthlyPartitioned, _YearlyPartitioned
+export highvolatility, ValueBased, DateBased, Monthly, Yearly
 
 function highvolatility(
   dates::AbstractVector{<:Date},

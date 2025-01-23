@@ -8,6 +8,10 @@ struct HighVolatility{T<:AbstractMatrix{<:AbstractFloat}, S<:AbstractVector{Date
   partition::F
 end
 
+struct RandomWise{T<:Int} <: Method
+  n::T
+end
+
 struct DateBased{T<:Span} <: Partition
   span::T
 end

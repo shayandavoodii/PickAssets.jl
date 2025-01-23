@@ -1,10 +1,13 @@
 module PickAssets
 
 using Dates
+using StatsBase
 
 include("Types.jl")
 
-export pickassets, HighVolatility, ValueBased, DateBased, Monthly, Yearly
+# export pickassets, HighVolatility, RandomWise, ValueBased, DateBased, Monthly, Yearly
+
+pickassets(m::RandomWise, tickers::AbstractVector{<:String}) = sample(tickers, m.n, replace=false)
 
 function pickassets(
   m::HighVolatility,

@@ -2,7 +2,12 @@ abstract type Method end
 abstract type Partition end
 abstract type Span end
 
-struct HighVolatility <: Method end
+struct HighVolatility{T<:AbstractMatrix{<:AbstractFloat}, S<:AbstractVector{Date}, F<:Partition} <: Method
+  vol::T
+  dates::S
+  partition::F
+end
+
 struct DateBased{T<:Span} <: Partition
   span::T
 end

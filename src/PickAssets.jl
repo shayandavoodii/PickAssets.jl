@@ -4,20 +4,18 @@ using Dates
 
 include("Types.jl")
 
-export pickassets, ValueBased, DateBased, Monthly, Yearly
+export pickassets, HighVolatility, ValueBased, DateBased, Monthly, Yearly
 
 function pickassets(
-  dates::AbstractVector{<:Date},
-  partition::Partition,
-  vol::AbstractMatrix{<:AbstractFloat},
+  m::HighVolatility,
   tickers::AbstractVector{<:String},
 )
-  if partition isa DateBased
-    ranges = _partition(partition.span, dates)
+  if m.partition isa DateBased
+    ranges = _partition(m.partition.span, m.dates)
   else
-    ranges = _partition(partition.span, vol[1, :])
+    ranges = _partition(m.partition.span, m.vol[1, :])
   end
-  eachyearvol = stack([vec(mean(vol[:, r], dims=2)) for r=ranges], dims=2)
+  eachyearvol = stack([vec(mean(m.vol[:, r], dims=2)) for r=ranges], dims=2)
   overalmean = mean(eachyearvol, dims=2)
   meanoveralmean = mean(overalmean, dims=1) |> only
   res = Dict(tickers[i] => overalmean[i] for i=eachindex(tickers))

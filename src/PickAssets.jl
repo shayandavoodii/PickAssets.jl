@@ -48,13 +48,14 @@ function _partition(::Monthly, vals::AbstractVector{<:Date})
 end
 
 function _partition(type::Span, vals::AbstractVector)
-  nperiods = length(vals)/type.val |> ceil |> Int
+  span = length(vals)
+  nperiods = span/type.val |> ceil |> Int
   ranges = Memory{UnitRange}(undef, nperiods)
   for i ∈ 1:nperiods
     ranges[i] = range((i-1)*type.val+1, i*type.val)
   end
-  if last(ranges).stop > length(vals)
-    ranges[end] = range(last(ranges).start, length(vals))
+  if last(ranges).stop > span
+    ranges[end] = range(last(ranges).start, span)
   end
   return ranges
 end

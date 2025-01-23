@@ -5,12 +5,12 @@ using StatsBase
 
 include("Types.jl")
 
-export pickassets, HighVolatility, RandomWise, ValueBased, DateBased, Monthly, Yearly
+export pickassets, HighVolume, RandomWise, ValueBased, DateBased, Monthly, Yearly
 
 pickassets(m::RandomWise, tickers::AbstractVector{<:String}) = sample(tickers, m.n, replace=false)
 
 function pickassets(
-  m::HighVolatility,
+  m::HighVolume,
   tickers::AbstractVector{<:String},
 )
   if m.partition isa DateBased

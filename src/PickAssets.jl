@@ -22,7 +22,12 @@ function pickassets(m::HighVolatility, tickers)
   return pickedassets(overalstd, tickers)
 end
 
-pickassets(m::RandomWise, tickers::AbstractVector{<:String}) = sample(tickers, m.n, replace=false)
+function pickassets(m::RandomWise, tickers::AbstractVector{<:String})
+  sup = sample(tickers, m.n, replace=false)
+  idx = findall(x->x∈sup, tickers)
+  res = Dict{String, Float64}()
+  return PickedAssets(-1., sup, idx, res)
+end
 
 function pickassets(
   m::HighVolume,

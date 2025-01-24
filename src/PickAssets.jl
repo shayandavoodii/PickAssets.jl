@@ -5,7 +5,22 @@ using StatsBase
 
 include("Types.jl")
 
-export pickassets, HighVolume, RandomWise, ValueBased, DateBased, Monthly, Yearly
+export pickassets, HighVolatility, HighVolume, RandomWise, ValueBased, DateBased, Monthly, Yearly
+
+function pickedassets(overalmethod::AbstractMatrix, tickers::AbstractVector{<:String})
+  meanoveralmethod = _mean(overalmethod, dims=1) |> only
+  res = Dict(tickers[i] => overalmethod[i] for i=eachindex(tickers))
+  supremetickers = (keys(res) |> collect)[findall(meanoveralmethod.≤values(res))]
+  idxsupremes = findall(x->x∈supremetickers, tickers)
+  return PickedAssets(meanoveralmethod, supremetickers, idxsupremes, res)
+end
+
+function pickassets(m::HighVolatility, tickers)
+  ranges = _ranges(m)
+  eachspanvol = stack([vec(_std(m.val[:, r], dims=2)) for r=ranges], dims=2)
+  overalstd = _mean(eachspanvol, dims=2)
+  return pickedassets(overalstd, tickers)
+end
 
 pickassets(m::RandomWise, tickers::AbstractVector{<:String}) = sample(tickers, m.n, replace=false)
 
@@ -67,8 +82,22 @@ nextmonth(id::Int) = id==12 ? 1 : id+1
 
 nmonths(y1::Int, m1::Int, y2::Int, m2::Int) = abs(y1-y2)*12 + abs(m1 - m2)
 
-mean(series::AbstractVector) = sum(series) / length(series)
+_mean(series::AbstractVector) = sum(series) / length(series)
 
-mean(mat::AbstractMatrix; dims::Int) = sum(mat, dims=dims) / size(mat, dims)
+_mean(mat::AbstractMatrix; dims::Int) = sum(mat, dims=dims) / size(mat, dims)
 
+function _var(series::AbstractVector)
+  mean_ = _mean(series)
+  return sum((series .- mean_).^2) / (length(series)-1)
 end
+
+function _var(mat::AbstractMatrix; dims::Int)
+  mean_ = _mean(mat, dims=dims)
+  return sum((mat .- mean_).^2, dims=dims) / (size(mat, dims)-1)
+end
+
+_std(series::AbstractVector) = √_var(series)
+
+_std(mat::AbstractMatrix; dims::Int) = sqrt.(_var(mat, dims=dims))
+
+end # module

@@ -9,6 +9,7 @@
 <div align="justify">
 This package aims to provide tools for creating a dataset from a universe of assets based on different criteria, such as the average volume, the average volatility, etc. during various time spans. The package is yet in its early stages and it is under development.
 </div>
+
 # Introduction
 
 <div align="justify">

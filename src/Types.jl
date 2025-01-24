@@ -3,7 +3,7 @@ abstract type Partition end
 abstract type Span end
 
 struct HighVolume{T<:AbstractMatrix{<:AbstractFloat}, S<:AbstractVector{Date}, F<:Partition} <: Method
-  vol::T
+  val::T
   dates::S
   partition::F
 end

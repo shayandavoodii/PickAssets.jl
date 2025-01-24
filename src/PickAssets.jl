@@ -13,18 +13,22 @@ function pickassets(
   m::HighVolume,
   tickers::AbstractVector{<:String},
 )
-  if m.partition isa DateBased
-    ranges = _partition(m.partition.span, m.dates)
-  else
-    ranges = _partition(m.partition.span, m.vol[1, :])
-  end
-  eachyearvol = stack([vec(mean(m.vol[:, r], dims=2)) for r=ranges], dims=2)
+  ranges = _ranges(m)
+  eachyearvol = stack([vec(mean(m.val[:, r], dims=2)) for r=ranges], dims=2)
   overalmean = mean(eachyearvol, dims=2)
   meanoveralmean = mean(overalmean, dims=1) |> only
   res = Dict(tickers[i] => overalmean[i] for i=eachindex(tickers))
   supremetickers = (keys(res) |> collect)[findall(meanoveralmean.≤values(res))]
   idxsupremes = findall(x->x∈supremetickers, tickers)
   return PickedAssets(meanoveralmean, supremetickers, idxsupremes, res)
+end
+
+function _ranges(m::Method)
+  if m.partition isa DateBased
+    return _partition(m.partition.span, m.dates)
+  else
+    return _partition(m.partition.span, m.val[1, :])
+  end
 end
 
 function _partition(::Yearly, dates::AbstractVector{<:Date})

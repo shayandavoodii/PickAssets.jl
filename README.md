@@ -15,6 +15,7 @@ This package aims to provide tools for creating a dataset from a universe of ass
 <div align="justify">
 Researchers use certain datasets to analyse the performance of their proposed model or strategy. These datasets are usually created from a universe of assets based on different criteria. For example, one might want to create a dataset from a universe of stocks based on the average volume, the average volatility, etc. during various time spans. This package aims to provide tools for creating such datasets using a function called <code>pickassets</code>.
 </div>
+
 # Installation
 
 You can install the package by running the following command in the Julia REPL:

@@ -29,8 +29,8 @@ function pickassets(
   tickers::AbstractVector{<:String},
 )
   ranges = _ranges(m)
-  eachyearvol = stack([vec(_mean(m.val[:, r], dims=2)) for r=ranges], dims=2)
-  overalmean = _mean(eachyearvol, dims=2)
+  eachspanvol = stack([vec(_mean(m.val[:, r], dims=2)) for r=ranges], dims=2)
+  overalmean = _mean(eachspanvol, dims=2)
   return pickedassets(overalmean, tickers)
 end
 

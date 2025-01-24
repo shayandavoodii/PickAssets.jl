@@ -15,13 +15,42 @@ function pickedassets(overalmethod::AbstractMatrix, tickers::AbstractVector{<:St
   return PickedAssets(meanoveralmethod, supremetickers, idxsupremes, res)
 end
 
-function pickassets(m::HighVolatility, tickers)
+"""
+    pickassets(m::HighVolatility, tickers::AbstractVector{<:String})
+
+Pick the supreme tickers using the [HighVolatility](@ref) method. According to this method, /
+the supreme tickers are the ones that have the highest average of the standard deviation in /
+each [Span](@ref) regarding the [Partition](@ref) method.
+
+# Arguments
+- `m::HighVolatility`: An object of [HighVolatility](@ref).
+- `tickers::AbstractVector{<:String}`: The Vector of tickers.
+
+# Returns
+- `::PickedAssets`: An object of [PickedAssets](@ref).
+"""
+function pickassets(m::HighVolatility, tickers::AbstractVector{<:String})
   ranges = _ranges(m)
   eachspanvol = stack([vec(_std(m.val[:, r], dims=2)) for r=ranges], dims=2)
   overalstd = _mean(eachspanvol, dims=2)
   return pickedassets(overalstd, tickers)
 end
 
+"""
+    pickassets(m::RandomWise, tickers::AbstractVector{<:String})
+
+Randomly pick `m` tickers from the `tickers` Vector.
+
+# Arguments
+- `m::RandomWise`: An object of [RandomWise](@ref).
+- `tickers::AbstractVector{<:String}`: The Vector of tickers.
+
+# Returns
+- `::PickedAssets`: An object of [PickedAssets](@ref) comprised of `-1.` as the overal mean, /
+  the supreme tickers (randomly chosen), the indexes of the supreme tickers and an empty /
+  dictionary as the overal result. In summary, the `sup` and `idx` fields are the main /
+  fields of the returned object in this case.
+"""
 function pickassets(m::RandomWise, tickers::AbstractVector{<:String})
   sup = sample(tickers, m.n, replace=false)
   idx = findall(x->x∈sup, tickers)
@@ -29,6 +58,20 @@ function pickassets(m::RandomWise, tickers::AbstractVector{<:String})
   return PickedAssets(-1., sup, idx, res)
 end
 
+"""
+    pickassets(m::HighVolume, tickers::AbstractVector{<:String})
+
+Pick the supreme tickers using the [HighVolume](@ref) method. According to this method, /
+the supreme tickers are the ones that have the highest average of the volume in /
+each [Span](@ref) regarding the [Partition](@ref) method.
+
+# Arguments
+- `m::HighVolume`: An object of [HighVolume](@ref).
+- `tickers::AbstractVector{<:String}`: The Vector of tickers.
+
+# Returns
+- `::PickedAssets`: An object of [PickedAssets](@ref).
+"""
 function pickassets(
   m::HighVolume,
   tickers::AbstractVector{<:String},

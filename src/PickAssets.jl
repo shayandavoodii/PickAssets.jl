@@ -1,7 +1,7 @@
 module PickAssets
 
 using Dates
-using StatsBase
+using StatsBase: sample
 
 include("Types.jl")
 

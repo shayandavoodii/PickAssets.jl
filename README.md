@@ -44,7 +44,7 @@ The <code>HighVolume</code> and <code>HighVolatility</code> methods take the fol
 
 </div>
 
-# Example
+## Example
 
 <div align="justify">
 The following example demonstrates how to use the <code>pickassets</code> function to create datasets from a universe of assets based on the various configurations:

@@ -14,13 +14,9 @@ function pickassets(
   tickers::AbstractVector{<:String},
 )
   ranges = _ranges(m)
-  eachyearvol = stack([vec(mean(m.val[:, r], dims=2)) for r=ranges], dims=2)
-  overalmean = mean(eachyearvol, dims=2)
-  meanoveralmean = mean(overalmean, dims=1) |> only
-  res = Dict(tickers[i] => overalmean[i] for i=eachindex(tickers))
-  supremetickers = (keys(res) |> collect)[findall(meanoveralmean.≤values(res))]
-  idxsupremes = findall(x->x∈supremetickers, tickers)
-  return PickedAssets(meanoveralmean, supremetickers, idxsupremes, res)
+  eachyearvol = stack([vec(_mean(m.val[:, r], dims=2)) for r=ranges], dims=2)
+  overalmean = _mean(eachyearvol, dims=2)
+  return pickedassets(overalmean, tickers)
 end
 
 function _ranges(m::Method)

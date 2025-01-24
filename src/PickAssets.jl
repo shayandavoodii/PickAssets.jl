@@ -107,8 +107,8 @@ function _partition(::Monthly, vals::AbstractVector{<:Date})
   ranges = Memory{UnitRange}(undef, nmonths_)
   for i ∈ 1:nmonths_
     ranges[i] = range(findfirst((month.(vals) .== currentmonth).&&(year.(vals) .== currentyear)), findlast((month.(vals) .== currentmonth).&&(year.(vals) .== currentyear)))
-    currentmonth = nextmonth(currentmonth)
     currentyear += currentmonth == 12 ? 1 : 0
+    currentmonth = nextmonth(currentmonth)
   end
   return ranges
 end

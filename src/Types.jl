@@ -83,7 +83,17 @@ Monthly span.
   val::T=21
 end
 
-struct Seasonaly <: Span end
+"""
+    Seasonally(val::Int)
+
+Seasonal span.
+
+# Fields
+- `val::Int=62`: Number of days in a season (quarter).
+"""
+@kwdef struct Seasonally{T<:Int} <: Span
+  val::T=62
+end
 
 """
     PickedAssets{F<:AbstractFloat, T1<:AbstractVector{String}, T2<:AbstractVector{Int}, S<:Dict{String, F}}

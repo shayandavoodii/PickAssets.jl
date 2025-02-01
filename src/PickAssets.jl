@@ -5,7 +5,7 @@ using StatsBase: sample
 
 include("Types.jl")
 
-export pickassets, HighVolatility, HighVolume, RandomWise, ValueBased, DateBased, Monthly, Yearly
+export pickassets, HighVolatility, HighVolume, RandomWise, ValueBased, DateBased, Monthly, Seasonally, Yearly
 
 function pickedassets(overalmethod::AbstractMatrix, tickers::AbstractVector{<:String})
   meanoveralmethod = _mean(overalmethod, dims=1) |> only
@@ -113,6 +113,19 @@ function _partition(::Monthly, vals::AbstractVector{<:Date})
   return ranges
 end
 
+function _partition(::Seasonally, vals::AbstractVector{<:Date})
+  currentseason, currentyear = quarterofyear(first(vals)), year(first(vals))
+  lastseason, lastyear = quarterofyear(last(vals)), year(last(vals))
+  nseasons_ = nseasons(currentyear, currentseason, lastyear, lastseason)
+  ranges = Memory{UnitRange}(undef, nseasons_)
+  for i ∈ 1:nseasons_
+    ranges[i] = range(findfirst((quarterofyear.(vals) .== currentseason).&&(year.(vals) .== currentyear)), findlast((quarterofyear.(vals) .== currentseason).&&(year.(vals) .== currentyear)))
+    currentyear += currentseason == 4 ? 1 : 0
+    currentseason = nextseason(currentseason)
+  end
+  return ranges
+end
+
 function _partition(type::Span, vals::AbstractVector)
   span = length(vals)
   nperiods = span/type.val |> ceil |> Int
@@ -128,7 +141,11 @@ end
 
 nextmonth(id::Int) = id==12 ? 1 : id+1
 
+nextseason(id::Int) = id==4 ? 1 : id+1
+
 nmonths(y1::Int, m1::Int, y2::Int, m2::Int) = abs(y1-y2)*12 + abs(m1 - m2)
+
+nseasons(y1::Int, q1::Int, y2::Int, q2::Int) = abs(y1-y2)*4 + (4-q1) + (4-q2)
 
 _mean(series::AbstractVector) = sum(series) / length(series)
 

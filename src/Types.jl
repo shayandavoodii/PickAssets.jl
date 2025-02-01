@@ -84,14 +84,14 @@ Monthly span.
 end
 
 """
-    Seasonaly(val::Int)
+    Seasonally(val::Int)
 
 Seasonal span.
 
 # Fields
 - `val::Int=62`: Number of days in a season (quarter).
 """
-@kwdef struct Seasonaly{T<:Int} <: Span
+@kwdef struct Seasonally{T<:Int} <: Span
   val::T=62
 end
 

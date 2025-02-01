@@ -5,7 +5,7 @@ using StatsBase: sample
 
 include("Types.jl")
 
-export pickassets, HighVolatility, HighVolume, RandomWise, ValueBased, DateBased, Monthly, Seasonaly, Yearly
+export pickassets, HighVolatility, HighVolume, RandomWise, ValueBased, DateBased, Monthly, Seasonally, Yearly
 
 function pickedassets(overalmethod::AbstractMatrix, tickers::AbstractVector{<:String})
   meanoveralmethod = _mean(overalmethod, dims=1) |> only
@@ -113,7 +113,7 @@ function _partition(::Monthly, vals::AbstractVector{<:Date})
   return ranges
 end
 
-function _partition(::Seasonaly, vals::AbstractVector{<:Date})
+function _partition(::Seasonally, vals::AbstractVector{<:Date})
   currentseason, currentyear = quarterofyear(first(vals)), year(first(vals))
   lastseason, lastyear = quarterofyear(last(vals)), year(last(vals))
   nseasons_ = nseasons(currentyear, currentseason, lastyear, lastseason)

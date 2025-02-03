@@ -35,6 +35,14 @@ struct RandomWise{T<:Int} <: Method
   n::T
 end
 
+struct MarketCap{T<:Int} <: Method
+  n::T
+  function MarketCap(n::T) where T
+    n≤0 && throw(ArgumentError("n must be a positive integer."))
+    new{T}(n)
+  end
+end
+
 """
     DateBased(span::Span)
 

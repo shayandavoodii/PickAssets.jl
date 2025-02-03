@@ -83,6 +83,13 @@ assets = tickers = ["CSCO", "RY", "SHOP", "TD", "ENB", "BN"]
 dataset6 = pickassets(MarketCap(3), assets)
 ```
 
+After retrieving the superior tickers in terms of the specified method, one can use the following field of the returned <code>PickedAssets</code> object to construct the dataset:
+
+```julia
+# For the first dataset, `dataset1`:
+close_prices[dataset1.idx, :]
+```
+
 <div align="justify">
 The output of the <code>pickassets</code> function is an object of type <code>PickedAssets</code> which contains the following fields:
 

@@ -83,7 +83,7 @@ assets = tickers = ["CSCO", "RY", "SHOP", "TD", "ENB", "BN"]
 dataset6 = pickassets(MarketCap(3), assets)
 ```
 
-After retrieving the superior tickers in terms of the specified method, one can use the following field of the returned <code>PickedAssets</code> object to construct the dataset:
+After retrieving the superior tickers in terms of the specified method, one can use the following field of the returned <a href="https://github.com/shayandavoodii/PickAssets.jl/blob/27fcf9fc1a78a4128426da11c08391480520e869/src/Types.jl#L106-L124"><code>PickedAssets</code></a> object to construct the dataset:
 
 ```julia
 # For the first dataset, `dataset1`:

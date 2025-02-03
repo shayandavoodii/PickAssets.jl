@@ -5,7 +5,8 @@ using StatsBase: sample
 
 include("Types.jl")
 
-export pickassets, HighVolatility, HighVolume, RandomWise, ValueBased, DateBased, Monthly, Seasonally, Yearly
+export pickassets, HighVolatility, HighVolume, RandomWise, ValueBased
+export MarketCap, DateBased, Monthly, Seasonally, Yearly
 
 function pickedassets(overalmethod::AbstractMatrix, tickers::AbstractVector{<:String})
   meanoveralmethod = _mean(overalmethod, dims=1) |> only

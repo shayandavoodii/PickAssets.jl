@@ -34,6 +34,7 @@ As mentioned earlier, the main function of this package is <code>pickassets</cod
     - <code>HighVolume</code>: Picks the assets with the highest average volume during the specified time span.
     - <code>HighVolatility</code>: Picks the assets with the highest average volatility during the specified time span.
     - <code>RandomWise</code>: Picks <code>m</code> assets randomly from the passed Vector of assets.
+    - <code>MarketCap</code>: Picks the assets with the highest <b>current</b> market capitalization.
 2. A Vector of assets. This Vector should contain the names of the assets that you would like to create the dataset from.
 
 The <code>HighVolume</code> and <code>HighVolatility</code> methods take the following additional arguments in order to specify the time span:
@@ -75,6 +76,11 @@ dataset4 = pickassets(HighVolatility(close_prices, dates, ValueBased(Monthly(21)
 
 # Dataset5: Picks 5 assets randomly from the universe of assets:
 dataset5 = pickassets(RandomWise(5), assets)
+
+# Dataset6: Picks the first 3 assets with the highest market capitalization:
+using YFinance
+assets = tickers = ["CSCO", "RY", "SHOP", "TD", "ENB", "BN"]
+dataset6 = pickassets(MarketCap(3), assets)
 ```
 
 <div align="justify">

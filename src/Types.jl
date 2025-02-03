@@ -33,8 +33,20 @@ RandomWise method.
 """
 struct RandomWise{T<:Int} <: Method
   n::T
+  function RandomWise(n::T) where T
+    n≤0 && throw(ArgumentError("n must be a positive integer."))
+    new{T}(n)
+  end
 end
 
+"""
+    MarketCap(n::Int)
+
+MarketCap method.
+
+# Fields
+- `m::Int`: Number of assets to pick.
+"""
 struct MarketCap{T<:Int} <: Method
   n::T
   function MarketCap(n::T) where T

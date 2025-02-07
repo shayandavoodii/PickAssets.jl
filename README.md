@@ -13,8 +13,12 @@ This package aims to provide tools for creating a dataset from a universe of ass
 # Introduction
 
 <div align="justify">
-Researchers use certain datasets to analyse the performance of their proposed model or strategy. These datasets are usually created from a universe of assets based on different criteria. For example, one might want to create a dataset from a universe of stocks based on the average volume, the average volatility, etc. during various time spans. This package aims to provide tools for creating such datasets using a function called <code>pickassets</code>.
+Researchers use certain datasets to analyse the performance of their proposed model or strategy (some examples are provided in the pictures below). These datasets are usually created from a universe of assets based on different criteria. For example, one might want to create a dataset from a universe of stocks based on the average/highest/lowest volume or volatility or market cap, etc. during various time spans. This package aims to provide tools for creating such datasets using a function called <code>pickassets</code>.
 </div>
+
+|  ![alt text](utils/img/kh51UXAQjE.png)  |  ![alt text](utils/img/Ap9H22xaDa.png)  |
+| :-------------------------------------: | :-------------------------------------: |
+|  ![alt text](utils/img/CJuQJBCXDK.png)  |  ![alt text](utils/img/KvZxu8iFSj.png)  |
 
 # Installation
 

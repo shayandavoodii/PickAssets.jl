@@ -8,7 +8,7 @@ include("Types.jl")
 export pickassets, HighVolatility, HighVolume, RandomWise, ValueBased
 export MarketCap, DateBased, Monthly, Seasonally, Yearly
 
-function pickedassets(overalmethod::AbstractMatrix, tickers::AbstractVector{<:String})
+function pickedassets(overalmethod::AbstractMatrix, tickers::AbstractVector{<:AbstractString})
   meanoveralmethod = _mean(overalmethod, dims=1) |> only
   res = Dict(tickers[i] => overalmethod[i] for i=eachindex(tickers))
   supremetickers = (keys(res) |> collect)[findall(meanoveralmethod.≤values(res))]
@@ -17,7 +17,7 @@ function pickedassets(overalmethod::AbstractMatrix, tickers::AbstractVector{<:St
 end
 
 """
-    pickassets(m::HighVolatility, tickers::AbstractVector{<:String})
+    pickassets(m::HighVolatility, tickers::AbstractVector{<:AbstractString})
 
 Pick the supreme tickers using the [HighVolatility](@ref) method. According to this method, /
 the supreme tickers are the ones that have the highest average of the standard deviation in /
@@ -25,12 +25,12 @@ each [Span](@ref) regarding the [Partition](@ref) method.
 
 # Arguments
 - `m::HighVolatility`: An object of [HighVolatility](@ref).
-- `tickers::AbstractVector{<:String}`: The Vector of tickers.
+- `tickers::AbstractVector{<:AbstractString}`: The Vector of tickers.
 
 # Returns
 - `::PickedAssets`: An object of [PickedAssets](@ref).
 """
-function pickassets(m::HighVolatility, tickers::AbstractVector{<:String})
+function pickassets(m::HighVolatility, tickers::AbstractVector{<:AbstractString})
   ranges = _ranges(m)
   eachspanvol = stack([vec(_std(m.val[:, r], dims=2)) for r=ranges], dims=2)
   overalstd = _mean(eachspanvol, dims=2)
@@ -38,13 +38,13 @@ function pickassets(m::HighVolatility, tickers::AbstractVector{<:String})
 end
 
 """
-    pickassets(m::RandomWise, tickers::AbstractVector{<:String})
+    pickassets(m::RandomWise, tickers::AbstractVector{<:AbstractString})
 
 Randomly pick `m` tickers from the `tickers` Vector.
 
 # Arguments
 - `m::RandomWise`: An object of [RandomWise](@ref).
-- `tickers::AbstractVector{<:String}`: The Vector of tickers.
+- `tickers::AbstractVector{<:AbstractString}`: The Vector of tickers.
 
 # Returns
 - `::PickedAssets`: An object of [PickedAssets](@ref) comprised of `-1.` as the overal mean, /
@@ -52,7 +52,7 @@ Randomly pick `m` tickers from the `tickers` Vector.
   dictionary as the overal result. In summary, the `sup` and `idx` fields are the main /
   fields of the returned object in this case.
 """
-function pickassets(m::RandomWise, tickers::AbstractVector{<:String})
+function pickassets(m::RandomWise, tickers::AbstractVector{<:AbstractString})
   sup = sample(tickers, m.n, replace=false)
   idx = findall(x->x∈sup, tickers)
   res = Dict{String, Float64}()
@@ -60,7 +60,7 @@ function pickassets(m::RandomWise, tickers::AbstractVector{<:String})
 end
 
 """
-    pickassets(m::HighVolume, tickers::AbstractVector{<:String})
+    pickassets(m::HighVolume, tickers::AbstractVector{<:AbstractString})
 
 Pick the supreme tickers using the [HighVolume](@ref) method. According to this method, /
 the supreme tickers are the ones that have the highest average of the volume in /
@@ -68,14 +68,14 @@ each [Span](@ref) regarding the [Partition](@ref) method.
 
 # Arguments
 - `m::HighVolume`: An object of [HighVolume](@ref).
-- `tickers::AbstractVector{<:String}`: The Vector of tickers.
+- `tickers::AbstractVector{<:AbstractString}`: The Vector of tickers.
 
 # Returns
 - `::PickedAssets`: An object of [PickedAssets](@ref).
 """
 function pickassets(
   m::HighVolume,
-  tickers::AbstractVector{<:String},
+  tickers::AbstractVector{<:AbstractString},
 )
   ranges = _ranges(m)
   eachspanvol = stack([vec(_mean(m.val[:, r], dims=2)) for r=ranges], dims=2)
@@ -160,3 +160,5 @@ end
 _std(mat::AbstractMatrix; dims::Int) = sqrt.(_var(mat, dims=dims))
 
 end # module
+
+

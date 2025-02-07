@@ -128,7 +128,7 @@ Seasonal span.
 end
 
 """
-    PickedAssets{F<:AbstractFloat, T1<:AbstractVector{String}, T2<:AbstractVector{Int}, S<:Dict{String, F}}
+    PickedAssets{F<:AbstractFloat, T1<:AbstractVector{<:AbstractString}, T2<:AbstractVector{Int}, S<:Dict{<:AbstractString, F}}
 
 The final result of the [pickassets](@ref) function which contains the overal mean of the \
 dired [Method](@ref), the supreme tickers, the indexes of the supreme tickers and an \
@@ -140,7 +140,7 @@ ovierview of overal result through a dictionary.
 - `idx::T2`: Indexes of the supreme tickers.
 - `res::S`: Overal result.
 """
-struct PickedAssets{F<:AbstractFloat, T1<:AbstractVector{String}, T2<:AbstractVector{Int}, S<:Dict{String, F}}
+struct PickedAssets{F<:AbstractFloat, T1<:AbstractVector{<:AbstractString}, T2<:AbstractVector{Int}, S<:Dict{<:AbstractString, F}}
   mean::F
   sup::T1
   idx::T2

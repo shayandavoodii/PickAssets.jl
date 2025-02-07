@@ -4,7 +4,7 @@ using YFinance
 using PickAssets
 
 """
-    pickassets(m::MarketCap, tickers::AbstractVector{<:String})
+    pickassets(m::MarketCap, tickers::AbstractVector{<:AbstractString})
 
 Pick the supreme tickers according to their market cap.
 

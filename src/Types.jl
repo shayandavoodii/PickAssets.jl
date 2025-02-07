@@ -34,7 +34,7 @@ RandomWise method.
 struct RandomWise{T<:Int} <: Method
   n::T
   function RandomWise(n::T) where T
-    n≤0 && throw(ArgumentError("n must be a positive integer."))
+    n≤0 && throw(ArgumentError("`n` must be a positive integer."))
     new{T}(n)
   end
 end
@@ -50,7 +50,7 @@ MarketCap method.
 struct MarketCap{T<:Int} <: Method
   n::T
   function MarketCap(n::T) where T
-    n≤0 && throw(ArgumentError("n must be a positive integer."))
+    n≤0 && throw(ArgumentError("`n` must be a positive integer."))
     new{T}(n)
   end
 end
@@ -89,6 +89,10 @@ Yearly span.
 """
 @kwdef struct Yearly{T<:Int} <: Span
   val::T=252
+  function Yearly(val::T) where T
+    val≤0 && throw(ArgumentError("`val` must be a positive integer."))
+    new{T}(val)
+  end
 end
 
 """
@@ -101,6 +105,10 @@ Monthly span.
 """
 @kwdef struct Monthly{T<:Int} <: Span
   val::T=21
+  function Monthly(val::T) where T
+    val≤0 && throw(ArgumentError("`val` must be a positive integer."))
+    new{T}(val)
+  end
 end
 
 """
@@ -113,6 +121,10 @@ Seasonal span.
 """
 @kwdef struct Seasonally{T<:Int} <: Span
   val::T=62
+  function Seasonally(val::T) where T
+    val≤0 && throw(ArgumentError("`val` must be a positive integer."))
+    new{T}(val)
+  end
 end
 
 """

@@ -152,17 +152,10 @@ _mean(series::AbstractVector) = sum(series) / length(series)
 
 _mean(mat::AbstractMatrix; dims::Int) = sum(mat, dims=dims) / size(mat, dims)
 
-function _var(series::AbstractVector)
-  mean_ = _mean(series)
-  return sum((series .- mean_).^2) / (length(series)-1)
-end
-
 function _var(mat::AbstractMatrix; dims::Int)
   mean_ = _mean(mat, dims=dims)
   return sum((mat .- mean_).^2, dims=dims) / (size(mat, dims)-1)
 end
-
-_std(series::AbstractVector) = √_var(series)
 
 _std(mat::AbstractMatrix; dims::Int) = sqrt.(_var(mat, dims=dims))
 

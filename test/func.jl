@@ -21,6 +21,7 @@ r4 = pickassets(vuy_, tickers)
 r5 = pickassets(vum, tickers)
 r6 = pickassets(vum_, tickers)
 r7 = pickassets(rn, tickers)
+r8 = pickassets(vos, tickers)
 
 @testset "PickAssets.jl" begin
 
@@ -31,6 +32,7 @@ r7 = pickassets(rn, tickers)
   @test r5 isa PickAssets.PickedAssets
   @test r6 isa PickAssets.PickedAssets
   @test r7 isa PickAssets.PickedAssets
+  @test r8 isa PickAssets.PickedAssets
 
   @test length(r7.idx) == rn.n
 

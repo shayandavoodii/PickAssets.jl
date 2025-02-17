@@ -18,10 +18,22 @@ Pick the supreme tickers according to their market cap.
 # Returns
 - `::PickedAssets`: An object of [PickedAssets](@ref).
 """
-function PickAssets.pickassets(m::PickAssets.MarketCap, tickers::AbstractVector{<:String})
+function PickAssets.pickassets!(m::PickAssets.MarketCap, tickers::AbstractVector{<:String})
   m.n ≤ length(tickers) || throw(ArgumentError("The number of assets to pick must be less \
   than or equal to the number of tickers."))
-  caps::Vector{Int} = map(x->x["marketCap"], get_summary_detail.(tickers))
+  caps::AbstractVector{<:Union{Nothing, Integer}} = get.(get_summary_detail.(tickers), "marketCap", nothing)
+  all(isnothing, caps) && return nothing
+  if any(isnothing, caps)
+    idxnothing = findall(isnothing, caps)
+    @warn "There is no market cap recorded for $(tickers[idxnothing]). These tickers will get \
+    deleted from the `tickers` Vector."
+    deleteat!(caps, idxnothing)
+    deleteat!(tickers, idxnothing)
+    if length(caps)==1
+      @info "There is only one ticker with a market cap recorded. This ticker will be picked."
+      return PickAssets.PickedAssets(caps[1], tickers[1], 1, Dict(tickers[1] => float(caps[1])))
+    end
+  end
   meancaps = PickAssets._mean(caps)
   idxs = findall(caps.≥meancaps)
   if length(idxs) < m.n

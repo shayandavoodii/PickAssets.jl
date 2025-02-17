@@ -13,7 +13,7 @@ function pickedassets(overalmethod::AbstractMatrix, tickers::AbstractVector{<:Ab
   res = Dict(tickers[i] => overalmethod[i] for i=eachindex(tickers))
   supremetickers = (keys(res) |> collect)[findall(meanoveralmethod.≤values(res))]
   idxsupremes = findall(x->x∈supremetickers, tickers)
-  return PickedAssets(meanoveralmethod, supremetickers, idxsupremes, res)
+  return PickedAssets(meanoveralmethod, supremetickers, idxsupremes, res, sorted(res))
 end
 
 function pickassets! end
@@ -58,7 +58,7 @@ function pickassets(m::RandomWise, tickers::AbstractVector{<:AbstractString})
   sup = sample(tickers, m.n, replace=false)
   idx = findall(x->x∈sup, tickers)
   res = Dict{String, Float64}()
-  return PickedAssets(-1., sup, idx, res)
+  return PickedAssets(-1., sup, idx, res, sorted(res))
 end
 
 """
@@ -141,6 +141,8 @@ function _partition(type::Span, vals::AbstractVector)
   end
   return ranges
 end
+
+sorted(dict::Dict{<:AbstractString, <:AbstractFloat}) = sortperm(values(dict) |> collect, rev=true)
 
 nextmonth(id::Int) = id==12 ? 1 : id+1
 

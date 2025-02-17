@@ -5,7 +5,7 @@ using StatsBase: sample
 
 include("Types.jl")
 
-export pickassets, HighVolatility, HighVolume, RandomWise, ValueBased
+export pickassets, pickassets!, HighVolatility, HighVolume, RandomWise, ValueBased
 export MarketCap, DateBased, Monthly, Seasonally, Yearly
 
 function pickedassets(overalmethod::AbstractMatrix, tickers::AbstractVector{<:AbstractString})

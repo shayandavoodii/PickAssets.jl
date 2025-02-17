@@ -145,4 +145,5 @@ struct PickedAssets{F<:AbstractFloat, T1<:AbstractVector{<:AbstractString}, T2<:
   sup::T1
   idx::T2
   res::S
+  sorted::T2
 end

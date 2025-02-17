@@ -16,6 +16,8 @@ function pickedassets(overalmethod::AbstractMatrix, tickers::AbstractVector{<:Ab
   return PickedAssets(meanoveralmethod, supremetickers, idxsupremes, res)
 end
 
+function pickassets! end
+
 """
     pickassets(m::HighVolatility, tickers::AbstractVector{<:AbstractString})
 

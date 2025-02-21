@@ -37,6 +37,8 @@ r8 = pickassets(vos, tickers)
   @test length(r7.idx) == rn.n
   @test r6.res[tickers[r6.sorted[1]]] == maximum(values(r6.res))
   @test r6.res[tickers[r6.sorted[end]]] == minimum(values(r6.res))
+  n = length(r6.idx)
+  @test in.(r6.sorted[1:n], Ref(r6.idx)) |> all
 
   r = PickAssets._ranges(vus)
   @test length(r) == 5

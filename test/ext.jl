@@ -4,6 +4,8 @@
   @test length(r.idx) ≤ mc.n
   @test r isa PickAssets.PickedAssets
   @test_throws ArgumentError pickassets!(mc, tickers[1:2])
+  n = length(r.idx)
+  @test in.(r.sorted[1:n], Ref(r.idx)) |> all
 
   mc = MarketCap(3)
   r = pickassets!(mc, tickers[1:3])

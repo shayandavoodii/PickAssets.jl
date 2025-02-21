@@ -139,6 +139,8 @@ ovierview of overal result through a dictionary.
 - `sup::T1`: Supreme tickers.
 - `idx::T2`: Indexes of the supreme tickers.
 - `res::S`: Overal result.
+- `sorted::T2`: Sorted indexes of the supreme tickers. Note that the indexes reflect the \
+  elements of the `tickers` Vector that you've passed to the [pickassets](@ref) function.
 """
 struct PickedAssets{F<:AbstractFloat, T1<:AbstractVector{<:AbstractString}, T2<:AbstractVector{Int}, S<:Dict{<:AbstractString, F}}
   mean::F

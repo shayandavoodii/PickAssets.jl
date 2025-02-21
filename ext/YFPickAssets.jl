@@ -16,7 +16,7 @@ function PickAssets.pickassets!(m::PickAssets.MarketCap, tickers::AbstractVector
     deleteat!(tickers, idxnothing)
     if length(caps)==1
       @info "There is only one ticker with a market cap recorded. This ticker will be picked."
-      return PickAssets.PickedAssets(float(caps[1]), [tickers[1]], [1], Dict(tickers[1] => float(caps[1])), PickAssets.sorted(Dict(tickers[1] => float(caps[1]))))
+      return PickAssets.PickedAssets(float(caps[1]), [tickers[1]], [1], Dict(tickers[1] => float(caps[1])), [caps[1]])
     end
   end
   meancaps = PickAssets._mean(caps)
@@ -29,7 +29,7 @@ function PickAssets.pickassets!(m::PickAssets.MarketCap, tickers::AbstractVector
     idxs = idxs[1:m.n]
   end
   res = Dict(tickers[i] => float(caps[i]) for i=eachindex(caps))
-  return PickAssets.PickedAssets(meancaps, tickers[idxs], idxs, res, PickAssets.sorted(res))
+  return PickAssets.PickedAssets(meancaps, tickers[idxs], idxs, res, PickAssets.sorted(caps))
 end
 
 end #module

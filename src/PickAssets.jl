@@ -156,7 +156,7 @@ function _partition(type::Span, vals::AbstractVector)
   return ranges
 end
 
-sorted(dict::Dict{<:AbstractString, <:AbstractFloat}) = sortperm(values(dict) |> collect, rev=true)
+sorted(vec::AbstractVector) = sortperm(vec, rev=true)
 
 nextmonth(id::Int) = id==12 ? 1 : id+1
 

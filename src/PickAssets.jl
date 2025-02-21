@@ -13,9 +13,23 @@ function pickedassets(overalmethod::AbstractMatrix, tickers::AbstractVector{<:Ab
   res = Dict(tickers[i] => overalmethod[i] for i=eachindex(tickers))
   supremetickers = (keys(res) |> collect)[findall(meanoveralmethod.≤values(res))]
   idxsupremes = findall(x->x∈supremetickers, tickers)
-  return PickedAssets(meanoveralmethod, supremetickers, idxsupremes, res, sorted(res))
-end
+"""
+    pickassets!(m::MarketCap, tickers::AbstractVector{<:String})
 
+Pick the supreme tickers according to their market cap. This function might delete some /
+tickers from the `tickers` Vector if there is no market cap recorded for them. In this case, /
+it will throw a warning message.
+
+!!! note
+    You need to import the `YFinance` package to use this function.
+
+# Arguments
+- `m::MarketCap`: An object of [MarketCap](@ref).
+- `tickers::AbstractVector{<:String}`: The Vector of tickers.
+
+# Returns
+- `::PickedAssets`: An object of [PickedAssets](@ref).
+"""
 function pickassets! end
 
 """

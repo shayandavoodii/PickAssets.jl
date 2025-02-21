@@ -3,21 +3,6 @@ module YFPickAssets
 using YFinance
 using PickAssets
 
-"""
-    pickassets(m::MarketCap, tickers::AbstractVector{<:AbstractString})
-
-Pick the supreme tickers according to their market cap.
-
-!!! note
-    You need to import the `YFinance` package to use this function.
-
-# Arguments
-- `m::MarketCap`: An object of [MarketCap](@ref).
-- `tickers::AbstractVector{<:String}`: The Vector of tickers.
-
-# Returns
-- `::PickedAssets`: An object of [PickedAssets](@ref).
-"""
 function PickAssets.pickassets!(m::PickAssets.MarketCap, tickers::AbstractVector{<:String})
   m.n ≤ length(tickers) || throw(ArgumentError("The number of assets to pick must be less \
   than or equal to the number of tickers."))

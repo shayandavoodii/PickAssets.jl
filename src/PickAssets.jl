@@ -13,6 +13,9 @@ function pickedassets(overalmethod::AbstractMatrix, tickers::AbstractVector{<:Ab
   res = Dict(tickers[i] => overalmethod[i] for i=eachindex(tickers))
   supremetickers = (keys(res) |> collect)[findall(meanoveralmethod.≤values(res))]
   idxsupremes = findall(x->x∈supremetickers, tickers)
+  return PickedAssets(meanoveralmethod, supremetickers, idxsupremes, res, sorted(vec(overalmethod)))
+end
+
 """
     pickassets!(m::MarketCap, tickers::AbstractVector{<:String})
 
@@ -72,7 +75,7 @@ function pickassets(m::RandomWise, tickers::AbstractVector{<:AbstractString})
   sup = sample(tickers, m.n, replace=false)
   idx = findall(x->x∈sup, tickers)
   res = Dict{String, Float64}()
-  return PickedAssets(-1., sup, idx, res, sorted(res))
+  return PickedAssets(-1., sup, idx, res, Int[])
 end
 
 """

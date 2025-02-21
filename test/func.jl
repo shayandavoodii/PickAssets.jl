@@ -35,6 +35,8 @@ r8 = pickassets(vos, tickers)
   @test r8 isa PickAssets.PickedAssets
 
   @test length(r7.idx) == rn.n
+  @test r6.res[tickers[r6.sorted[1]]] == maximum(values(r6.res))
+  @test r6.res[tickers[r6.sorted[end]]] == minimum(values(r6.res))
 
   r = PickAssets._ranges(vus)
   @test length(r) == 5
